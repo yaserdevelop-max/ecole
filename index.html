@@ -14,16 +14,25 @@
 <body>
 
     <!-- ========================================================
-         SÉLECTEUR DE LANGUE (sidebar gauche)
-         Permet de changer la langue de toute l'application.
-         Français est sélectionné par défaut (active-lang).
+         SÉLECTEUR DE LANGUE (barre du haut)
+         Menu déroulant pour changer la langue de l'application.
+         Français est sélectionné par défaut.
     ======================================================== -->
-    <div id="lang-selector">
-        <button id="lang-fr" class="lang-btn active-lang" onclick="changeLanguage('fr')" title="Français">🇫🇷</button>
-        <button id="lang-de" class="lang-btn" onclick="changeLanguage('de')" title="Deutsch">🇩🇪</button>
-        <button id="lang-sv" class="lang-btn" onclick="changeLanguage('sv')" title="Svenska">🇸🇪</button>
-        <button id="lang-en" class="lang-btn" onclick="changeLanguage('en')" title="English">🇬🇧</button>
-        <button id="lang-ar" class="lang-btn" onclick="changeLanguage('ar')" title="العربية">🇸🇦</button>
+    <div id="lang-bar">
+        <div id="lang-dropdown">
+            <button id="lang-toggle" onclick="toggleLangMenu()">
+                <span id="lang-current-flag">🇫🇷</span>
+                <span id="lang-current-name">Français</span>
+                <span class="lang-arrow">▼</span>
+            </button>
+            <div id="lang-menu" class="hidden">
+                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+                <button onclick="changeLanguage('sv')">🇸🇪 Svenska</button>
+                <button onclick="changeLanguage('en')">🇬🇧 English</button>
+                <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
+            </div>
+        </div>
     </div>
 
     <!-- ========================================================

@@ -25,14 +25,40 @@ function t(key) {
     return translations[currentLang][key] || translations["fr"][key] || key;
 }
 
+/* ---- Drapeaux et noms pour le menu de langue ---- */
+var langFlags = { fr: "🇫🇷", de: "🇩🇪", sv: "🇸🇪", en: "🇬🇧", ar: "🇸🇦" };
+var langNames = { fr: "Français", de: "Deutsch", sv: "Svenska", en: "English", ar: "العربية" };
+
+/* ===========================================================
+ * toggleLangMenu() — Ouvre ou ferme le menu déroulant de langue
+ * =========================================================== */
+function toggleLangMenu() {
+    var dropdown = document.getElementById("lang-dropdown");
+    var menu = document.getElementById("lang-menu");
+    dropdown.classList.toggle("open");
+    menu.classList.toggle("hidden");
+}
+
+/* ===========================================================
+ * closeLangMenu() — Ferme le menu si on clique en dehors
+ * =========================================================== */
+document.addEventListener("click", function (e) {
+    var dropdown = document.getElementById("lang-dropdown");
+    if (dropdown && !dropdown.contains(e.target)) {
+        dropdown.classList.remove("open");
+        document.getElementById("lang-menu").classList.add("hidden");
+    }
+});
+
 /* ===========================================================
  * changeLanguage(lang) — Change la langue de l'application
  *
  * 1. Met à jour la variable currentLang
  * 2. Recharge la voix TTS pour la nouvelle langue
  * 3. Applique les traductions sur tous les éléments HTML
- * 4. Met à jour le bouton de langue actif (sidebar)
+ * 4. Met à jour le bouton du menu avec le drapeau et nom
  * 5. Gère la direction RTL pour l'arabe
+ * 6. Ferme le menu déroulant
  *
  * @param {string} lang — Code langue ("fr", "en", "de", "sv", "ar")
  * =========================================================== */
@@ -45,12 +71,13 @@ function changeLanguage(lang) {
     /* Appliquer les traductions sur le HTML */
     applyTranslations();
 
-    /* Mettre en surbrillance le bouton de langue actif */
-    document.querySelectorAll(".lang-btn").forEach(function (b) {
-        b.classList.remove("active-lang");
-    });
-    var activeBtn = document.getElementById("lang-" + lang);
-    if (activeBtn) activeBtn.classList.add("active-lang");
+    /* Mettre à jour le bouton avec le drapeau et nom de la langue */
+    document.getElementById("lang-current-flag").innerText = langFlags[lang];
+    document.getElementById("lang-current-name").innerText = langNames[lang];
+
+    /* Fermer le menu déroulant */
+    document.getElementById("lang-dropdown").classList.remove("open");
+    document.getElementById("lang-menu").classList.add("hidden");
 
     /* Gestion RTL pour l'arabe */
     if (lang === "ar") {

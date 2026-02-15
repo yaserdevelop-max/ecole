@@ -212,54 +212,108 @@ nav button.active {
     transform: scale(1.1);
 }
 
-/* ---- 9. Sélecteur de langue (sidebar gauche) ---- */
+/* ---- 9. Sélecteur de langue (menu déroulant en haut) ---- */
 
-/* Panneau fixe sur le côté gauche, centré verticalement */
-#lang-selector {
-    position: fixed;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+/* Barre contenant le menu de langue */
+#lang-bar {
+    background: white;
+    padding: 8px 15px;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 100;
+    justify-content: flex-end;
+    border-bottom: 1px solid #eee;
 }
 
-/* Bouton de langue (rond avec drapeau) */
-.lang-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 3px solid #ddd;
-    background: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: 0.3s;
+/* Conteneur du dropdown (position relative pour le menu absolu) */
+#lang-dropdown {
+    position: relative;
+}
+
+/* Bouton principal qui affiche la langue courante */
+#lang-toggle {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Bouton de langue survolé */
-.lang-btn:hover {
+#lang-toggle:hover {
     border-color: var(--secondary);
-    transform: scale(1.1);
+    background: #e8e8e8;
 }
 
-/* Bouton de langue actif (bordure rouge + ombre) */
-.lang-btn.active-lang {
-    border-color: var(--primary);
-    transform: scale(1.15);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+/* Petite flèche à droite du bouton */
+.lang-arrow {
+    font-size: 0.7rem;
+    color: #7F8C8D;
+    transition: 0.3s;
+}
+
+/* Rotation de la flèche quand le menu est ouvert */
+#lang-dropdown.open .lang-arrow {
+    transform: rotate(180deg);
+}
+
+/* Menu déroulant (liste des langues) */
+#lang-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 5px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    overflow: hidden;
+    z-index: 200;
+    min-width: 180px;
+}
+
+/* Chaque option de langue dans le menu */
+#lang-menu button {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s;
+}
+
+/* Survol d'une option de langue */
+#lang-menu button:hover {
+    background: var(--bg);
 }
 
 /* ---- 10. Support RTL pour l'arabe ---- */
 
-/* Quand dir="rtl" est sur le body, le sélecteur passe à droite */
-[dir="rtl"] #lang-selector {
-    left: auto;
-    right: 10px;
+/* Quand dir="rtl", le bouton va à gauche.
+   On force direction:ltr sur la barre pour que flex-start = gauche,
+   puis on remet rtl sur le dropdown pour le texte arabe. */
+[dir="rtl"] #lang-bar {
+    direction: ltr;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] #lang-dropdown {
+    direction: rtl;
+}
+
+[dir="rtl"] #lang-menu {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] #lang-menu button {
+    text-align: right;
 }
 
 /* Alignement du texte pour l'arabe */
