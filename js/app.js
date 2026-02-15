@@ -137,19 +137,24 @@ loadVoice();
 /* speak(text, rate) — Prononce un texte avec la voix courante
  *
  * @param {string} text — Le texte à prononcer
- * @param {number} rate — Vitesse de parole (défaut: 0.9)
+ * @param {number} rate — Vitesse de parole (défaut: 1)
  *
- * Note : un délai de 100ms après cancel() évite que le
- *        navigateur coupe le début du mot */
+ * Technique : on ajoute une micro-pause "..." avant le texte
+ * pour que le navigateur ne coupe pas la première lettre.
+ * On attend aussi que cancel() soit terminé avant de parler. */
 function speak(text, rate) {
     window.speechSynthesis.cancel();
     setTimeout(function () {
-        var msg = new SpeechSynthesisUtterance(text);
+        /* La virgule crée une petite pause silencieuse
+           qui protège la première lettre du vrai texte */
+        var msg = new SpeechSynthesisUtterance(", " + text);
         msg.lang = langCodes[currentLang] || "fr-FR";
         if (currentVoice) msg.voice = currentVoice;
         msg.rate = rate || 1;
         window.speechSynthesis.speak(msg);
-    }, 250);
+        /* Fix Chrome : relancer si le navigateur met en pause */
+        window.speechSynthesis.resume();
+    }, 300);
 }
 
 /* ===========================================================

@@ -217,33 +217,41 @@ nav button.active {
 /* Barre contenant le menu de langue */
 #lang-bar {
     background: white;
-    padding: 8px 15px;
+    padding: 10px 15px;
     display: flex;
     justify-content: flex-end;
     border-bottom: 1px solid #eee;
+    position: relative;
+    z-index: 300;
 }
 
 /* Conteneur du dropdown (position relative pour le menu absolu) */
 #lang-dropdown {
     position: relative;
+    z-index: 301;
 }
 
-/* Bouton principal qui affiche la langue courante */
+/* Bouton principal qui affiche la langue courante
+   min-height: 48px pour être facilement cliquable au doigt */
 #lang-toggle {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    font-size: 1rem;
+    padding: 10px 18px;
+    min-height: 48px;
+    font-size: 1.1rem;
     font-family: inherit;
     background: #f0f0f0;
     border: 2px solid #ddd;
     border-radius: 25px;
     cursor: pointer;
     transition: 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-#lang-toggle:hover {
+#lang-toggle:hover,
+#lang-toggle:active {
     border-color: var(--secondary);
     background: #e8e8e8;
 }
@@ -270,26 +278,31 @@ nav button.active {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     overflow: hidden;
-    z-index: 200;
-    min-width: 180px;
+    z-index: 400;
+    min-width: 200px;
 }
 
-/* Chaque option de langue dans le menu */
+/* Chaque option de langue dans le menu
+   min-height: 48px pour un bon tap sur mobile */
 #lang-menu button {
     display: block;
     width: 100%;
-    padding: 12px 20px;
-    font-size: 1.1rem;
+    padding: 14px 20px;
+    min-height: 48px;
+    font-size: 1.15rem;
     font-family: inherit;
     border: none;
     background: white;
     cursor: pointer;
     text-align: left;
     transition: 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-/* Survol d'une option de langue */
-#lang-menu button:hover {
+/* Survol / tap d'une option de langue */
+#lang-menu button:hover,
+#lang-menu button:active {
     background: var(--bg);
 }
 
