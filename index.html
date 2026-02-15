@@ -10,7 +10,7 @@
         body { font-family: 'Varela Round', sans-serif; background-color: var(--bg); margin: 0; text-align: center; color: #2C3E50; }
         
         nav { background: white; padding: 15px; display: flex; justify-content: center; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        nav button { padding: 12px 25px; font-size: 1.2rem; border: none; border-radius: 50px; cursor: pointer; background: #f0f0f0; transition: 0.3s; font-family: inherit; }
+        nav button { padding: 10px 18px; font-size: 1.1rem; border: none; border-radius: 50px; cursor: pointer; background: #f0f0f0; transition: 0.3s; font-family: inherit; }
         nav button.active { background: var(--primary); color: white; transform: scale(1.1); box-shadow: 0 4px 0 #d64545; }
 
         .container { max-width: 650px; margin: 30px auto; padding: 30px; background: white; border-radius: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -31,22 +31,31 @@
         .btn-stop { background: #E74C3C; color: white; padding: 15px 30px; border: none; border-radius: 20px; cursor: pointer; margin-top: 20px; font-family: inherit; }
         .feedback { font-size: 2.2rem; height: 60px; font-weight: bold; margin: 10px 0; }
         .btn-audio { font-size: 5rem; background: var(--secondary); color: white; border-radius: 50%; width: 120px; height: 120px; border: none; cursor: pointer; box-shadow: 0 8px 0 #39a39a; margin: 20px; }
+        .op-btn.active-op { background: var(--secondary); color: white; border-color: var(--secondary); transform: scale(1.1); }
+        .missing-num { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <nav>
         <button id="nav-math" onclick="goTo('math')" class="active">🔢 Calculs</button>
+        <button id="nav-missing" onclick="goTo('missing')">🧩 Nombre Manquant</button>
         <button id="nav-dictation" onclick="goTo('dictation')">✍️ Dictée</button>
         <button id="nav-words" onclick="goTo('words')">📝 Mes Mots</button>
     </nav>
 
     <div id="view-math" class="container">
         <div id="math-setup">
-            <h1>Tables d'Additions</h1>
+            <h1>Tables de Calculs</h1>
             <p>Choisis ta table :</p>
             <input type="number" id="math-table" value="2" min="0" max="10" style="font-size: 3rem; width: 100px; text-align: center; border-radius: 15px; border: 3px solid var(--secondary);">
             <br><br>
+            <p>Choisis l'opération :</p>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <button id="math-op-plus" class="btn-choice op-btn active-op" style="padding: 15px 25px; font-size: 2rem;" onclick="selectMathOp('+')">+</button>
+                <button id="math-op-minus" class="btn-choice op-btn" style="padding: 15px 25px; font-size: 2rem;" onclick="selectMathOp('-')">-</button>
+                <button id="math-op-mult" class="btn-choice op-btn" style="padding: 15px 25px; font-size: 2rem;" onclick="selectMathOp('*')">*</button>
+            </div>
             <button class="btn-main" onclick="startMath()">COMMENCER</button>
         </div>
 
@@ -68,18 +77,49 @@
         </div>
     </div>
 
+    <div id="view-missing" class="container hidden">
+        <div id="missing-setup">
+            <h1>🧩 Nombre Manquant</h1>
+            <p>Choisis ta table :</p>
+            <input type="number" id="missing-table" value="2" min="0" max="10" style="font-size: 3rem; width: 100px; text-align: center; border-radius: 15px; border: 3px solid var(--secondary);">
+            <br><br>
+            <p>Choisis l'opération :</p>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <button id="op-plus" class="btn-choice op-btn active-op" style="padding: 15px 25px; font-size: 2rem;" onclick="selectOp('+')">+</button>
+                <button id="op-minus" class="btn-choice op-btn" style="padding: 15px 25px; font-size: 2rem;" onclick="selectOp('-')">-</button>
+                <button id="op-mult" class="btn-choice op-btn" style="padding: 15px 25px; font-size: 2rem;" onclick="selectOp('*')">*</button>
+            </div>
+            <button class="btn-main" onclick="startMissing()">COMMENCER</button>
+        </div>
+
+        <div id="missing-game" class="hidden">
+            <div class="info-bar">
+                <span>Question <span id="mq-idx">1</span> / 10</span>
+                <span>Score: <span id="mq-score">0</span></span>
+            </div>
+            <div class="progress-container"><div id="ms-progress" class="progress-bar"></div></div>
+            <div id="missing-q" class="math-box"></div>
+            <div id="missing-opts" class="btn-grid"></div>
+            <div id="missing-fb" class="feedback"></div>
+        </div>
+
+        <div id="missing-end" class="hidden">
+            <h1 style="font-size: 3rem;">Fini ! 🏆</h1>
+            <div style="font-size: 5rem; color: #F1C40F;"><span id="final-missing-score">0</span> / 10</div>
+            <button class="btn-main" onclick="goTo('missing')">REJOUER</button>
+        </div>
+    </div>
+
     <div id="view-dictation" class="container hidden">
         <div id="dict-setup">
             <h1>Dictée Détective</h1>
             <p>Choisis ton exercice :</p>
-            <button class="btn-choice" style="width:100%; font-size:1.5rem;" onclick="startDict('LA')">Syllabe LA</button>
-            <button class="btn-choice" style="width:100%; font-size:1.5rem; margin: 10px 0;" onclick="startDict('MA')">Syllabe MA</button>
-            <button class="btn-choice" style="width:100%; font-size:1.5rem;" onclick="startDict('CH')">Son CH 🐱</button>
+            <button class="btn-choice" style="width:100%; font-size:1.5rem;" onclick="startDict('EXEMPLE')">Exemple : Animaux 🐱</button>
             <div id="custom-lists-divider" class="hidden" style="margin: 20px 0; border-top: 2px dashed #ccc;"></div>
             <div id="custom-lists-buttons"></div>
         </div>
         <div id="dict-game" class="hidden">
-            <div style="font-weight: bold; color: var(--primary);">Mot <span id="d-idx-display">1</span> / 3</div>
+            <div style="font-weight: bold; color: var(--primary);">Mot <span id="d-idx-display">1</span> / <span id="d-total">0</span></div>
             <button class="btn-audio" onclick="sayWord()">🔊</button>
             <p>Écoute bien et écris le mot.</p>
             <button class="btn-main" id="btn-next-d" onclick="nextWord()">MOT SUIVANT ➡️</button>
@@ -120,8 +160,27 @@
     </div>
 
     <script>
+        var bravoList = [
+            "Bravo !", "Excellent !", "Félicitations !", "Super !", "Génial !",
+            "Magnifique !", "Parfait !", "Formidable !", "Très bien !", "Champion !"
+        ];
+        var bravoEmojis = ["🌟", "🎉", "👏", "💪", "🏅", "⭐", "🥇", "✨", "🎊", "👍"];
+        var dommageList = [
+            "Dommage !", "Presque !", "Pas tout à fait !", "Essaie encore !",
+            "Courage !", "Ce n'est rien !", "La prochaine fois !"
+        ];
+
+        function randomBravo() {
+            var i = Math.floor(Math.random() * bravoList.length);
+            return { text: bravoEmojis[i] + " " + bravoList[i], speech: bravoList[i] };
+        }
+        function randomDommage() {
+            return dommageList[Math.floor(Math.random() * dommageList.length)];
+        }
+
         var mScore = 0, mIdx = 0, mAns = 0, canClick = true;
         var mathQuestions = [];
+        var selectedMathOp = '+';
         var googleVoice = null;
 
         function loadVoices() {
@@ -132,13 +191,15 @@
         window.speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
 
-        function speak(t) {
+        function speak(t, rate) {
             window.speechSynthesis.cancel();
-            var msg = new SpeechSynthesisUtterance(t);
-            msg.lang = 'fr-FR';
-            if(googleVoice) msg.voice = googleVoice;
-            msg.rate = 0.7;
-            window.speechSynthesis.speak(msg);
+            setTimeout(function() {
+                var msg = new SpeechSynthesisUtterance(t);
+                msg.lang = 'fr-FR';
+                if(googleVoice) msg.voice = googleVoice;
+                msg.rate = rate || 0.9;
+                window.speechSynthesis.speak(msg);
+            }, 100);
         }
 
         function goTo(v) {
@@ -150,6 +211,12 @@
                 document.getElementById('math-game').classList.add('hidden');
                 document.getElementById('math-end').classList.add('hidden');
                 document.getElementById('nav-math').classList.add('active');
+            } else if(v === 'missing') {
+                document.getElementById('view-missing').classList.remove('hidden');
+                document.getElementById('missing-setup').classList.remove('hidden');
+                document.getElementById('missing-game').classList.add('hidden');
+                document.getElementById('missing-end').classList.add('hidden');
+                document.getElementById('nav-missing').classList.add('active');
             } else if(v === 'dictation') {
                 document.getElementById('view-dictation').classList.remove('hidden');
                 document.getElementById('dict-setup').classList.remove('hidden');
@@ -164,20 +231,34 @@
             }
         }
 
-        // MATH LOGIC - Fixed to show table+1 to table+10 in random order
+        // MATH LOGIC
+        function selectMathOp(op) {
+            selectedMathOp = op;
+            document.querySelectorAll('#math-setup .op-btn').forEach(function(b) { b.classList.remove('active-op'); });
+            document.getElementById(op === '+' ? 'math-op-plus' : op === '-' ? 'math-op-minus' : 'math-op-mult').classList.add('active-op');
+        }
+
         function startMath() {
             mScore = 0;
             mIdx = 0;
             var table = parseInt(document.getElementById('math-table').value) || 0;
-            
-            // Generate all 10 questions (table + 1 to table + 10), then shuffle
+            var op = selectedMathOp;
+
             mathQuestions = [];
             for(var i = 1; i <= 10; i++) {
-                mathQuestions.push({ a: table, b: i, ans: table + i });
+                var a, b, ans;
+                if(op === '+') {
+                    a = table; b = i; ans = table + i;
+                } else if(op === '-') {
+                    // (table + i) - table = i  → always positive
+                    a = table + i; b = table; ans = i;
+                } else {
+                    a = table; b = i; ans = table * i;
+                }
+                mathQuestions.push({ a: a, b: b, op: op, ans: ans });
             }
-            // Shuffle the questions
             mathQuestions.sort(function() { return Math.random() - 0.5; });
-            
+
             document.getElementById('math-setup').classList.add('hidden');
             document.getElementById('math-game').classList.remove('hidden');
             newMathQ();
@@ -194,7 +275,7 @@
 
             var q = mathQuestions[mIdx - 1];
             mAns = q.ans;
-            document.getElementById('math-q').innerText = q.a + " + " + q.b;
+            document.getElementById('math-q').innerText = q.a + " " + q.op + " " + q.b;
 
             // Generate wrong answers (close to correct answer)
             var opts = new Set([mAns]);
@@ -222,12 +303,14 @@
             if(n === mAns) {
                 mScore++;
                 btn.classList.add('correct');
-                document.getElementById('math-fb').innerText = "🌟 BRAVO !";
-                speak("Bravo !");
+                var b = randomBravo();
+                document.getElementById('math-fb').innerText = b.text;
+                speak(b.speech);
             } else {
                 btn.classList.add('wrong');
-                document.getElementById('math-fb').innerText = "Dommage !";
-                speak("Non, la réponse était " + mAns);
+                var d = randomDommage();
+                document.getElementById('math-fb').innerText = d;
+                speak(d + " La réponse était " + mAns);
                 Array.from(document.querySelectorAll('.btn-choice')).forEach(function(b) {
                     if(parseInt(b.innerText) === mAns) b.classList.add('correct');
                 });
@@ -242,9 +325,110 @@
             speak("C'est fini ! Tu as eu " + mScore + " sur dix.");
         }
 
+        // MISSING NUMBER LOGIC
+        var msScore = 0, msIdx = 0, msAns = 0, msCanClick = true;
+        var missingQuestions = [];
+        var selectedOp = '+';
+
+        function selectOp(op) {
+            selectedOp = op;
+            document.querySelectorAll('.op-btn').forEach(function(b) { b.classList.remove('active-op'); });
+            document.getElementById(op === '+' ? 'op-plus' : op === '-' ? 'op-minus' : 'op-mult').classList.add('active-op');
+        }
+
+        function startMissing() {
+            msScore = 0;
+            msIdx = 0;
+            var table = parseInt(document.getElementById('missing-table').value) || 0;
+            var op = selectedOp;
+
+            missingQuestions = [];
+            for(var i = 1; i <= 10; i++) {
+                var a, b, result;
+                if(op === '+') {
+                    a = table; b = i; result = table + i;
+                } else if(op === '-') {
+                    // (table + i) - table = i  → always positive
+                    a = table + i; b = table; result = i;
+                } else {
+                    a = table; b = i; result = table * i;
+                }
+                // The missing number is always b (the second operand)
+                missingQuestions.push({ a: a, op: op, result: result, answer: b });
+            }
+            missingQuestions.sort(function() { return Math.random() - 0.5; });
+
+            document.getElementById('missing-setup').classList.add('hidden');
+            document.getElementById('missing-game').classList.remove('hidden');
+            newMissingQ();
+        }
+
+        function newMissingQ() {
+            if(msIdx >= 10) { showMissingEnd(); return; }
+            msIdx++;
+            msCanClick = true;
+            document.getElementById('mq-idx').innerText = msIdx;
+            document.getElementById('mq-score').innerText = msScore;
+            document.getElementById('ms-progress').style.width = (msIdx * 10) + "%";
+            document.getElementById('missing-fb').innerText = "";
+
+            var q = missingQuestions[msIdx - 1];
+            msAns = q.answer;
+
+            // Always show: a OP ? = result
+            document.getElementById('missing-q').innerHTML = q.a + ' ' + q.op + ' ? = ' + q.result;
+
+            // Generate wrong answers
+            var opts = new Set([msAns]);
+            while(opts.size < 3) {
+                var offset = Math.floor(Math.random() * 5) - 2;
+                if(offset === 0) offset = Math.random() > 0.5 ? 1 : -1;
+                var f = msAns + offset;
+                if(f >= 0 && f !== msAns) opts.add(f);
+            }
+
+            var grid = document.getElementById('missing-opts');
+            grid.innerHTML = "";
+            Array.from(opts).sort(function() { return Math.random() - 0.5; }).forEach(function(n) {
+                var b = document.createElement('button');
+                b.className = 'btn-choice';
+                b.innerText = n;
+                b.onclick = function(e) { checkMissing(n, e.target); };
+                grid.appendChild(b);
+            });
+        }
+
+        function checkMissing(n, btn) {
+            if(!msCanClick) return;
+            msCanClick = false;
+            if(n === msAns) {
+                msScore++;
+                btn.classList.add('correct');
+                var b = randomBravo();
+                document.getElementById('missing-fb').innerText = b.text;
+                speak(b.speech);
+            } else {
+                btn.classList.add('wrong');
+                var d = randomDommage();
+                document.getElementById('missing-fb').innerText = d;
+                speak(d + " La réponse était " + msAns);
+                Array.from(document.querySelectorAll('#missing-opts .btn-choice')).forEach(function(b) {
+                    if(parseInt(b.innerText) === msAns) b.classList.add('correct');
+                });
+            }
+            setTimeout(newMissingQ, 2000);
+        }
+
+        function showMissingEnd() {
+            document.getElementById('missing-game').classList.add('hidden');
+            document.getElementById('missing-end').classList.remove('hidden');
+            document.getElementById('final-missing-score').innerText = msScore;
+            speak("C'est fini ! Tu as eu " + msScore + " sur dix.");
+        }
+
         // DICTATION LOGIC
         var dW = [], dI = 0;
-        var db = {'LA':["UN LAMA","LE LAVABO","LA LAPINE"], 'MA':["MAMAN","UNE MAMIE","LE MATIN"], 'CH':["UN CHAT","UNE VACHE","RICHE"]};
+        var db = {'EXEMPLE':["UN CHAT","UN CHIEN","UN LAPIN","UNE VACHE"]};
         
         function startDict(k) {
             if(k.indexOf('CUSTOM:') === 0) {
@@ -268,10 +452,11 @@
         
         function updateDictUI() {
             document.getElementById('d-idx-display').innerText = dI + 1;
+            document.getElementById('d-total').innerText = dW.length;
         }
 
-        function sayWord() { 
-            speak(dW[dI]); 
+        function sayWord() {
+            speak(dW[dI], 0.7);
         }
 
         function nextWord() {
@@ -289,7 +474,7 @@
             document.getElementById('btn-fini-d').classList.add('hidden');
             document.getElementById('dict-res').classList.remove('hidden');
             document.getElementById('dict-list').innerText = dW.join("  -  ");
-            speak("Travail terminé ! Voici la correction.");
+            speak("Travail terminé ! Voici la correction.", 0.7);
         }
 
         // CUSTOM WORD LISTS
