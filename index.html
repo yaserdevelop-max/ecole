@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon École Magique CP</title>
+    <title>Magic school</title>
 
-    <!-- Police arrondie adaptée aux enfants -->
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <!-- Police arrondie adaptée aux enfants + police craie pour le titre -->
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Caveat:wght@700&display=swap" rel="stylesheet">
 
     <!-- Feuille de style externe -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- Titre principal de l'application -->
+    <h1 id="app-title">Magic School</h1>
 
     <!-- ========================================================
          SÉLECTEUR DE LANGUE (barre du haut)
@@ -205,6 +208,18 @@
             <button class="btn-stop" onclick="goTo('words')" data-i18n="cancel">Annuler</button>
         </div>
     </div>
+
+    <!-- ========================================================
+         FOOTER — Copyright et contact
+    ======================================================== -->
+    <footer id="app-footer">
+        <p>&copy; Yaser Abbas</p>
+        <p>
+            <a href="tel:+33770365183">+33 7 70 36 51 83</a>
+            &nbsp;|&nbsp;
+            <a href="mailto:yaserdevelop@gmail.com">yaserdevelop@gmail.com</a>
+        </p>
+    </footer>
 
     <!-- ========================================================
          SCRIPTS — Chargés dans l'ordre :
