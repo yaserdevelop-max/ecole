@@ -117,17 +117,47 @@ function applyTranslations() {
  * =========================================================== */
 
 /* loadVoice() — Charge la meilleure voix disponible
- *               pour la langue courante */
+ *               pour la langue courante.
+ *
+ * Priorité : voix neuronales/premium (Google, Microsoft Neural,
+ * Enhanced, Wavenet) > voix cloud (localService=false) > toute
+ * autre voix de la même langue. */
 function loadVoice() {
     var voices = window.speechSynthesis.getVoices();
     var code = langCodes[currentLang] || "fr-FR";
-    var prefix = code.split("-")[0]; /* ex: "fr" depuis "fr-FR" */
+    var prefix = code.split("-")[0];
 
-    /* Chercher d'abord une voix exacte, sinon une voix partielle */
-    currentVoice =
-        voices.find(function (v) { return v.lang === code; }) ||
-        voices.find(function (v) { return v.lang.startsWith(prefix); }) ||
-        null;
+    try {
+        /* Mots-clés qui indiquent une voix haute qualité */
+        var premiumKeywords = ["neural", "wavenet", "premium", "enhanced",
+                               "natural", "google", "online"];
+
+        var langVoices = voices.filter(function (v) {
+            return v.lang === code || v.lang.startsWith(prefix);
+        });
+
+        if (langVoices.length === 0) throw new Error("no voice");
+
+        /* Attribuer un score : plus élevé = meilleure qualité */
+        function score(v) {
+            var n = v.name.toLowerCase();
+            var s = 0;
+            premiumKeywords.forEach(function (kw) { if (n.includes(kw)) s += 10; });
+            if (!v.localService) s += 5;
+            if (v.lang === code)  s += 2;
+            return s;
+        }
+
+        langVoices.sort(function (a, b) { return score(b) - score(a); });
+        currentVoice = langVoices[0];
+
+    } catch (e) {
+        /* Fallback : sélection simple comme avant */
+        currentVoice =
+            voices.find(function (v) { return v.lang === code; }) ||
+            voices.find(function (v) { return v.lang.startsWith(prefix); }) ||
+            null;
+    }
 }
 
 /* Charger les voix dès qu'elles sont disponibles */
@@ -150,7 +180,7 @@ function speak(text, rate) {
         var msg = new SpeechSynthesisUtterance(", " + text);
         msg.lang = langCodes[currentLang] || "fr-FR";
         if (currentVoice) msg.voice = currentVoice;
-        msg.rate = rate || 1;
+        msg.rate = rate || 0.9;
         window.speechSynthesis.speak(msg);
         /* Fix Chrome : relancer si le navigateur met en pause */
         window.speechSynthesis.resume();
