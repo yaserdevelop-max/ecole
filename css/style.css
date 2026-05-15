@@ -394,7 +394,56 @@ nav button.active {
     flex-direction: row-reverse;
 }
 
-/* ---- 11. Footer — En bas de la page (après le contenu) ---- */
+/* ---- 11. Jeu Couleurs ---- */
+
+/* Anneau dégradé arc-en-ciel autour du cercle */
+.color-display-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #E74C3C, #E67E22, #F1C40F, #27AE60,
+        #2980B9, #8E44AD, #E91E8C, #E74C3C
+    );
+    margin: 20px auto;
+    padding: 10px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* Le cercle de couleur lui-même */
+#color-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 8px solid white;
+    box-shadow:
+        inset 0 6px 18px rgba(255, 255, 255, 0.45),
+        inset 0 -6px 18px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+/* Animation de rebond à chaque nouvelle couleur */
+@keyframes colorPop {
+    0%   { transform: scale(0.4); opacity: 0; }
+    65%  { transform: scale(1.12); }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+.color-pop {
+    animation: colorPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Boutons de choix de couleur (texte plus petit que pour les chiffres) */
+.color-btn {
+    font-size: 1.6rem !important;
+    padding: 20px 10px !important;
+}
+
+/* ---- 12. Footer — En bas de la page (après le contenu) ---- */
 #app-footer {
     margin-top: 40px;
     padding: 20px;

@@ -206,6 +206,13 @@ function goTo(view) {
         document.getElementById("math-end").classList.add("hidden");
         document.getElementById("nav-math").classList.add("active");
 
+    } else if (view === "colors") {
+        document.getElementById("view-colors").classList.remove("hidden");
+        document.getElementById("colors-setup").classList.remove("hidden");
+        document.getElementById("colors-game").classList.add("hidden");
+        document.getElementById("colors-end").classList.add("hidden");
+        document.getElementById("nav-colors").classList.add("active");
+
     } else if (view === "missing") {
         document.getElementById("view-missing").classList.remove("hidden");
         document.getElementById("missing-setup").classList.remove("hidden");

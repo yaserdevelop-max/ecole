@@ -45,6 +45,7 @@
     ======================================================== -->
     <nav>
         <button id="nav-math" onclick="goTo('math')" class="active" data-i18n="navMath">🔢 Calculs</button>
+        <button id="nav-colors" onclick="goTo('colors')" data-i18n="navColors">🎨 Couleurs</button>
         <button id="nav-missing" onclick="goTo('missing')" data-i18n="navMissing">🧩 Nombre Manquant</button>
         <button id="nav-dictation" onclick="goTo('dictation')" data-i18n="navDictation">✍️ Dictée</button>
         <button id="nav-words" onclick="goTo('words')" data-i18n="navWords">📝 Mes Mots</button>
@@ -94,7 +95,42 @@
     </div>
 
     <!-- ========================================================
-         VUE 2 : NOMBRE MANQUANT
+         VUE 2 : COULEURS
+         L'élève voit une couleur et choisit son nom parmi 3 réponses.
+    ======================================================== -->
+    <div id="view-colors" class="container hidden">
+
+        <!-- Écran de démarrage -->
+        <div id="colors-setup">
+            <h1 data-i18n="colorsTitle">🎨 Les Couleurs</h1>
+            <p data-i18n="colorsDesc">Connais-tu le nom des couleurs ?</p>
+            <button class="btn-main" onclick="startColors()" data-i18n="start">COMMENCER</button>
+        </div>
+
+        <!-- Écran de jeu -->
+        <div id="colors-game" class="hidden">
+            <div class="info-bar">
+                <span><span data-i18n="question">Question</span> <span id="cq-idx">1</span> / 10</span>
+                <span><span data-i18n="score">Score</span>: <span id="cq-score">0</span></span>
+            </div>
+            <div class="progress-container"><div id="c-progress" class="progress-bar"></div></div>
+            <div class="color-display-wrapper">
+                <div id="color-circle"></div>
+            </div>
+            <div id="color-opts" class="btn-grid"></div>
+            <div id="color-fb" class="feedback"></div>
+        </div>
+
+        <!-- Écran de fin -->
+        <div id="colors-end" class="hidden">
+            <h1 style="font-size: 3rem;" data-i18n="finished">Fini ! 🏆</h1>
+            <div style="font-size: 5rem; color: #F1C40F;"><span id="final-colors-score">0</span> / 10</div>
+            <button class="btn-main" onclick="goTo('colors')" data-i18n="replay">REJOUER</button>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         VUE 3 : NOMBRE MANQUANT
          L'élève doit trouver le nombre manquant dans une opération.
          Exemple : 8 + ? = 10  → réponse : 2
     ======================================================== -->
@@ -137,7 +173,7 @@
     </div>
 
     <!-- ========================================================
-         VUE 3 : DICTÉE DÉTECTIVE
+         VUE 4 : DICTÉE DÉTECTIVE
          L'application prononce des mots, l'élève les écrit.
          Les mots viennent de la liste d'exemple (adaptée à la
          langue) ou d'une liste personnalisée.
@@ -176,7 +212,7 @@
     </div>
 
     <!-- ========================================================
-         VUE 4 : MES MOTS
+         VUE 5 : MES MOTS
          L'utilisateur crée et gère ses propres listes de mots.
          Les listes sont sauvegardées dans le localStorage.
     ======================================================== -->
@@ -233,6 +269,7 @@
     <script src="js/translations.js"></script>
     <script src="js/app.js"></script>
     <script src="js/math.js"></script>
+    <script src="js/colors.js"></script>
     <script src="js/missing.js"></script>
     <script src="js/dictation.js"></script>
     <script src="js/words.js"></script>

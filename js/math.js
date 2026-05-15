@@ -165,7 +165,7 @@ function checkMath(n, btn) {
     }
 
     /* Passer à la question suivante après 2 secondes */
-    setTimeout(newMathQ, 2000);
+    setTimeout(newMathQ, 4000);
 }
 
 /* ===========================================================

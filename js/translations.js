@@ -20,6 +20,7 @@ var translations = {
     fr: {
         // Navigation
         navMath: "🔢 Calculs",
+        navColors: "🎨 Couleurs",
         navMissing: "🧩 Nombre Manquant",
         navDictation: "✍️ Dictée",
         navWords: "📝 Mes Mots",
@@ -87,6 +88,11 @@ var translations = {
             "Essaie encore !", "Courage !", "Ce n'est rien !", "La prochaine fois !"
         ],
         answerWas: "La réponse était",
+        itWas: "C'était",
+
+        // Couleurs — écran de jeu
+        colorsTitle: "🎨 Les Couleurs",
+        colorsDesc: "Connais-tu le nom des couleurs ?",
 
         // Mots d'exemple pour la dictée
         exampleWords: ["UN CHAT", "UN CHIEN", "UN LAPIN", "UNE VACHE"]
@@ -95,6 +101,7 @@ var translations = {
     /* ---- ANGLAIS ---- */
     en: {
         navMath: "🔢 Calculations",
+        navColors: "🎨 Colors",
         navMissing: "🧩 Missing Number",
         navDictation: "✍️ Dictation",
         navWords: "📝 My Words",
@@ -150,6 +157,10 @@ var translations = {
             "Try again!", "Keep going!", "It's nothing!", "Next time!"
         ],
         answerWas: "The answer was",
+        itWas: "It was",
+
+        colorsTitle: "🎨 Colors",
+        colorsDesc: "Do you know the names of the colors?",
 
         exampleWords: ["A CAT", "A DOG", "A RABBIT", "A COW"]
     },
@@ -157,6 +168,7 @@ var translations = {
     /* ---- ALLEMAND ---- */
     de: {
         navMath: "🔢 Rechnen",
+        navColors: "🎨 Farben",
         navMissing: "🧩 Fehlende Zahl",
         navDictation: "✍️ Diktat",
         navWords: "📝 Meine Wörter",
@@ -212,6 +224,10 @@ var translations = {
             "Versuch es nochmal!", "Mut!", "Macht nichts!", "Nächstes Mal!"
         ],
         answerWas: "Die Antwort war",
+        itWas: "Es war",
+
+        colorsTitle: "🎨 Die Farben",
+        colorsDesc: "Kennst du die Namen der Farben?",
 
         exampleWords: ["EINE KATZE", "EIN HUND", "EIN KANINCHEN", "EINE KUH"]
     },
@@ -219,6 +235,7 @@ var translations = {
     /* ---- SUÉDOIS ---- */
     sv: {
         navMath: "🔢 Beräkningar",
+        navColors: "🎨 Färger",
         navMissing: "🧩 Saknat Nummer",
         navDictation: "✍️ Diktamen",
         navWords: "📝 Mina Ord",
@@ -274,6 +291,10 @@ var translations = {
             "Försök igen!", "Mod!", "Det gör inget!", "Nästa gång!"
         ],
         answerWas: "Svaret var",
+        itWas: "Det var",
+
+        colorsTitle: "🎨 Färgerna",
+        colorsDesc: "Kan du namnen på färgerna?",
 
         exampleWords: ["EN KATT", "EN HUND", "EN KANIN", "EN KO"]
     },
@@ -281,6 +302,7 @@ var translations = {
     /* ---- ARABE ---- */
     ar: {
         navMath: "🔢 حسابات",
+        navColors: "🎨 الألوان",
         navMissing: "🧩 العدد المفقود",
         navDictation: "✍️ إملاء",
         navWords: "📝 كلماتي",
@@ -336,6 +358,10 @@ var translations = {
             "حاول مرة أخرى!", "شجاعة!", "لا بأس!", "المرة القادمة!"
         ],
         answerWas: "الجواب كان",
+        itWas: "كانت",
+
+        colorsTitle: "🎨 الألوان",
+        colorsDesc: "هل تعرف أسماء الألوان؟",
 
         exampleWords: ["قِطَّة", "كَلْب", "أَرْنَب", "بَقَرَة"]
     }
